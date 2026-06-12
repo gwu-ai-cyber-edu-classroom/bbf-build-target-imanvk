@@ -6,32 +6,38 @@
 
 ## What this app is
 
-- **App:** <one line — e.g., "a paste-bin service" (menu #1)>
-- **Stack:** <Python + Flask / FastAPI, or Node + Express>
+- **App:** a URL shortener service (menu #3)
+- **Stack:** Python + Flask
 
 ## Start it
 
 ```bash
-# 1. Install dependencies
-<e.g. pip install -r requirements.txt   OR   npm install>
+# 1. Install dependencies (in a virtualenv — see ENVIRONMENTS.md)
+pip install -r requirements.txt
 
 # 2. Run it
-<e.g. flask --app app run --port 8000   OR   uvicorn app:app --port 8000   OR   node server.js>
+flask --app app run --port 8000
 ```
 
-- **Base URL:** <e.g. http://localhost:8000>
+- **Base URL:** http://localhost:8000
 - **Stop it:** Ctrl-C in the terminal running it.
 
 ## How to interact with it
 
 - **Main endpoints / pages:**
-  - `<METHOD> <path>` — <what it does> — <example>
-  - `<METHOD> <path>` — <what it does> — <example>
-- **Accounts / credentials for legitimate use** (if the app has login): <demo username/password, or "none">
+  - `GET /` — homepage: a form to shorten a URL plus a list of public short links.
+  - `POST /shorten` — create a short link for a URL (form field `url`); returns the new short link.
+  - `GET /<code>` — follow a short code; redirects (HTTP 302) to its target URL.
+  - `GET /api/links/<code>` — JSON metadata for a single short link.
+- **Accounts / credentials for legitimate use:** none.
 - **A benign request that should succeed:**
 
   ```bash
-  <e.g. curl http://localhost:8000/notes/1>
+  # Create a short link
+  curl -i -X POST http://localhost:8000/shorten --data-urlencode "url=https://example.com/"
+
+  # Follow an existing short code (302 redirect to its target)
+  curl -i http://localhost:8000/1
   ```
 
 ## For breakers
